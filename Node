@@ -1,0 +1,10 @@
+#include "stdafx.h"
+#include "Node.h"
+
+Node::Node(int d)
+{
+  data =d;
+  Parent='\0';
+  Right='\0';
+  Left='\0';
+}
