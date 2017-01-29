@@ -1,0 +1,49 @@
+// BST.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "BSTree.h"
+#include "Node.h"
+#include <iostream>
+using namespace std;
+
+int main()
+{
+  bool exist=0;
+  Node * n1= new Node(46);
+  Node * n2= new Node(55);
+  Node * n3= new Node(63);
+  Node * n4= new Node(12);
+  Node * n5= new Node(2);
+  BSTree mytree(n1);
+  mytree.insert(n1, n2);
+  mytree.insert(n1, n3);
+  mytree.insert(n1, n4);
+  mytree.insert(n1, n5);
+  cout<<"\n inorder output :";
+  mytree.inorder(n1);
+  cout<<"\n preorder output :";
+  mytree.preorder(n1);
+  cout<<"\n postorder output :";
+  mytree.postorder(n1);
+  exist=mytree.search(n1, 3);
+  if (exist) 
+    cout<<"the number 3 is in the tree \n";
+  else
+    cout<<"the number 3 is not in the tree \n";
+  mytree.remove(n5);
+  cout<<"\n inorder output :";
+  mytree.inorder(n1);
+  mytree.remove(n4);
+  cout<<"\n inorder output :";
+  mytree.inorder(n1);
+  mytree.remove(n3);
+  cout<<"\n inorder output :";
+  mytree.inorder(n1);
+  mytree.remove(n2);
+  cout<<"\n inorder output :";
+  mytree.inorder(n1);
+  mytree.remove(n1);
+  return 0;
+}
+
