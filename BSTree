@@ -1,0 +1,149 @@
+#include "stdafx.h"
+#include "BSTree.h"
+#include "Node.h"
+#include <iostream>
+using namespace std;
+
+BSTree::BSTree(Node *r)
+{
+  root=r;
+}
+
+bool BSTree::empty()
+{
+  if (root==NULL)
+	  return true;
+  else
+	  return false;
+}
+
+void BSTree::insert(Node *root, Node * n)
+{
+  if (root->data==n->data)
+  {
+    cout<<"\n data "<<n->data<<" already exists! \n";}
+  else
+  { 
+    if (root->data > n->data)
+    {
+      if (root->Left==NULL)
+		  {
+        root->Left=n;
+        n->Parent=root;
+      }
+      else
+	    insert(root->Left, n);
+    }
+    else //root->data< n->data
+    {
+      if (root->Right==NULL)
+		  {
+        root->Right=n;
+		    n->Parent=root;
+      }
+      else
+	      insert(root->Right, n);
+    }
+  }
+}
+
+bool BSTree::search(Node *root, int key)
+{
+  if (root==NULL)
+    return false;
+  else
+  {
+    if (root->data==key)
+	    return true;
+    else
+    {
+      if (root->data >key)
+        search(root->Left,key);
+      else
+	      search(root->Right, key);
+    }
+  }
+}
+  
+void BSTree::remove(Node *n)
+{
+  Node * xsucc;
+  if ((n->Left==NULL)&&(n->Right==NULL))
+  {  
+    if (n->Parent!=NULL)  //leaf
+    { 
+      if (n->data > n->Parent->data)
+        n->Parent->Right=NULL;
+      else
+	      n->Parent->Left=NULL;
+    }
+	  else  //root, no children
+    {
+      root=NULL;
+      cout<<"\n The tree is empty now \n";
+    }
+  }
+  
+  //one right child, no left child
+  if ((n->Right!=NULL)&&(n->Left==NULL))
+  {
+    if (n->data >n->Parent->data)
+		  n->Parent->Right=n->Right;
+    else
+	    n->Parent->Left=n->Right;
+  }
+  
+  //one left child, no right child
+  if ((n->Right==NULL)&&(n->Left!=NULL))
+  {
+    if (n->data >n->Parent->data)
+		  n->Parent->Right=n->Left;
+    else
+	    n->Parent->Left=n->Left;
+  }
+  
+  if ((n->Right!=NULL)&&(n->Left!=NULL))  //two childern, find the successor, replace, and remove
+  {
+    xsucc=n->Right;
+    while (xsucc->Left!=NULL)
+    {
+      xsucc=xsucc->Left;
+    }
+    n->data=xsucc->data;
+    if (xsucc->Right!=NULL)
+      xsucc->Parent->Left=xsucc->Right;
+    else
+	    xsucc->Parent->Left='\0';
+  }
+}
+ 
+void BSTree::inorder(Node *root)
+{
+  if (root!=NULL)
+  {
+    inorder(root->Left);
+    cout<<root->data<<" ";
+    inorder(root->Right);
+  }
+}
+  
+void BSTree::preorder(Node *root)
+{
+  if (root!=NULL)
+  {
+    cout<<root->data<<" ";
+    preorder(root->Left);
+    preorder(root->Right);
+  }
+}
+  
+void BSTree::postorder(Node *root)
+{
+  if (root!=NULL)
+  {
+    postorder(root->Left);
+    postorder(root->Right);
+    cout<<root->data<<" ";
+  }
+}
+ 
